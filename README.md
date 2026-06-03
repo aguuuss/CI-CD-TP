@@ -50,6 +50,89 @@ El workflow `.github/workflows/ci-cd.yml` valida tres cosas antes de entregar:
 
 En cualquier branch o PR, GitHub Actions ejecuta las validaciones. En `main`, si esos tres pasos pasan, ejecuta el deploy a Vercel y publica el resultado en Linear.
 
+## Estructura usada
+
+```text
+.
+├── .github/workflows/ci-cd.yml      # Pipeline de GitHub Actions
+├── docs/slides/esquema-ci-cd-tp.html # Slide HTML con el esquema del TP
+├── scripts/post-linear-feedback.mjs # Feedback automatico hacia Linear
+├── src/App.tsx                      # App Hola Mundo
+├── src/App.test.tsx                 # Prueba automatizada
+├── vercel.json                      # Desactiva deploy automatico por Git
+├── package.json                     # Scripts locales y dependencias
+└── pnpm-lock.yaml                   # Lockfile del package manager
+```
+
+## Casos de uso para probar
+
+### Caso 1: cambio verde local
+
+Objetivo: demostrar que el entorno de desarrollador puede validar el cambio antes de subirlo.
+
+```bash
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+Resultado esperado: los tres gates pasan.
+
+### Caso 2: cambio verde en `main`
+
+Objetivo: demostrar entrega continua.
+
+1. Hacer un cambio que no rompa `Hola Mundo`.
+2. Subirlo a `main`.
+3. Ver GitHub Actions en verde.
+4. Ver deploy en Vercel.
+5. Ver comentario automatico en Linear.
+
+### Caso 3: romper la prueba
+
+Objetivo: demostrar que el Test Gate bloquea la entrega.
+
+1. Cambiar el texto `Hola Mundo` en `src/App.tsx`.
+2. Ejecutar:
+
+```bash
+pnpm test
+```
+
+Resultado esperado: falla el test porque `src/App.test.tsx` espera encontrar `Hola Mundo`.
+
+### Caso 4: romper TypeScript
+
+Objetivo: demostrar que el Type Gate bloquea la entrega antes del build.
+
+Agregar temporalmente:
+
+```ts
+const demo: number = "esto rompe TypeScript";
+```
+
+Ejecutar:
+
+```bash
+pnpm typecheck
+```
+
+Resultado esperado: falla TypeScript.
+
+### Caso 5: romper el build
+
+Objetivo: demostrar que el Build Gate bloquea la entrega si la app no compila.
+
+1. Romper temporalmente un import, por ejemplo en `src/main.tsx`.
+2. Ejecutar:
+
+```bash
+pnpm build
+```
+
+Resultado esperado: Vite/TypeScript falla y no hay deploy.
+
 ## Como demostrar un cambio exitoso
 
 1. Hacer un cambio simple que no altere el saludo esperado.
