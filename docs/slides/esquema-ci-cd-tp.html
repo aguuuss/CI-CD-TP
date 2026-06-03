@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esquema CI/CD del TP</title>
+    <style>
+      :root {
+        color: #111827;
+        background: #d9dee7;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body {
+        display: grid;
+        min-height: 100vh;
+        margin: 0;
+        place-items: center;
+      }
+
+      .slide {
+        box-sizing: border-box;
+        width: min(96vw, 1280px);
+        aspect-ratio: 16 / 9;
+        padding: 48px 56px;
+        background: #f7f8fa;
+        box-shadow: 0 24px 80px rgb(15 23 42 / 0.24);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 42px;
+        line-height: 1.05;
+      }
+
+      .subtitle {
+        margin: 12px 0 0;
+        color: #4b5563;
+        font-size: 18px;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 34px;
+        align-items: center;
+        margin-top: 72px;
+      }
+
+      .step {
+        position: relative;
+        display: grid;
+        min-height: 150px;
+        place-items: center;
+        padding: 20px 14px;
+        text-align: center;
+        background: #ffffff;
+        border: 1px solid #d6dae1;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgb(31 41 55 / 0.08);
+      }
+
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -27px;
+        width: 20px;
+        height: 20px;
+        border-top: 3px solid #6b7280;
+        border-right: 3px solid #6b7280;
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      .step img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+
+      .step strong {
+        display: block;
+        margin-top: 16px;
+        font-size: 19px;
+      }
+
+      .step span {
+        display: block;
+        margin-top: 8px;
+        color: #52616f;
+        font-size: 14px;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        margin-top: 70px;
+      }
+
+      .demo {
+        padding: 20px 24px;
+        border: 1px solid;
+        border-radius: 10px;
+      }
+
+      .demo.green {
+        background: #eef6ff;
+        border-color: #bbd7ff;
+      }
+
+      .demo.red {
+        background: #fff1f2;
+        border-color: #fecaca;
+      }
+
+      .demo h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .green h2 {
+        color: #1d4ed8;
+      }
+
+      .red h2 {
+        color: #be123c;
+      }
+
+      .demo p {
+        margin: 0;
+        color: #1f2937;
+        font-size: 16px;
+      }
+
+      .tools {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+        margin-top: 36px;
+        color: #4b5563;
+        font-size: 14px;
+      }
+
+      .tools span {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .tools img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .fallback {
+        margin: 22px 0 0;
+        color: #6b7280;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+        }
+
+        .slide {
+          width: 100vw;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="slide">
+      <h1>Esquema CI/CD del TP</h1>
+      <p class="subtitle">
+        Cambio en repo -> GitHub Actions -> typecheck/test/build -> deploy en
+        Vercel -> feedback en Linear
+      </p>
+
+      <div class="flow" aria-label="Flujo de integracion y entrega continua">
+        <article class="step">
+          <img src="../assets/logos/github.svg" alt="GitHub" />
+          <strong>Repositorio</strong>
+          <span>Cambio de codigo</span>
+        </article>
+        <article class="step">
+          <img src="../assets/logos/githubactions.svg" alt="GitHub Actions" />
+          <strong>Actions</strong>
+          <span>Servidor de IC</span>
+        </article>
+        <article class="step">
+          <img src="../assets/logos/typescript.svg" alt="TypeScript" />
+          <strong>Gates</strong>
+          <span>TS + test + build</span>
+        </article>
+        <article class="step">
+          <img src="../assets/logos/vercel.svg" alt="Vercel" />
+          <strong>Vercel</strong>
+          <span>Deploy desde main</span>
+        </article>
+        <article class="step">
+          <img src="../assets/logos/linear.svg" alt="Linear" />
+          <strong>Linear</strong>
+          <span>Feedback automatico</span>
+        </article>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo green">
+          <h2>Demo verde</h2>
+          <p>
+            Un cambio mantiene Hola Mundo, pasan typecheck/test/build y main
+            despliega.
+          </p>
+        </article>
+        <article class="demo red">
+          <h2>Demo roja</h2>
+          <p>
+            Se rompe el texto esperado o un tipo TS; Actions corta antes del
+            deploy.
+          </p>
+        </article>
+      </div>
+
+      <div class="tools" aria-label="Herramientas de la app">
+        <span><img src="../assets/logos/vite.svg" alt="" />Vite</span>
+        <span><img src="../assets/logos/react.svg" alt="" />React</span>
+        <span><img src="../assets/logos/typescript.svg" alt="" />TypeScript</span>
+        <span><img src="../assets/logos/pnpm.svg" alt="" />pnpm</span>
+      </div>
+
+      <p class="fallback">Fallback: VPS + Docker si Vercel no esta disponible.</p>
+    </main>
+  </body>
+</html>
