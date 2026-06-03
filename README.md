@@ -93,6 +93,8 @@ Para Vercel:
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
 
+El archivo `vercel.json` desactiva los deploys automaticos de Vercel por Git. De esta manera, Vercel queda como entorno de entrega, pero el deploy lo dispara GitHub Actions solo despues de pasar typecheck, tests y build.
+
 Para Linear:
 
 - `LINEAR_API_KEY`
