@@ -1,6 +1,8 @@
 import "./App.css";
 
 export function App() {
+    const estado: number = "roto";
+
   return (
     <main className="app-shell">
       <h1>Hola mundo</h1>
