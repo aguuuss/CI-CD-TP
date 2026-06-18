@@ -1,7 +1,7 @@
 import "./App.css";
 
 export function App() {
-    const estado: number = "roto";
+    const estado: number = "rota";
 
   return (
     <main className="app-shell">
