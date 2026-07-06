@@ -5,7 +5,7 @@ export function App() {
 
   return (
     <main className="app-shell">
-      <h1>Hola mundo</h1>
+      <h1>Hola esta todo roto</h1>
       <p>Demo simple para validar integración continua y entrega continua.</p>
     </main>
   );
